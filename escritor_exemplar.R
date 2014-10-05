@@ -45,7 +45,7 @@ n.gramas.3 <- data.table(get.ngrams(frases.novela, 3), key = c("1", "2"))
 
 ### escritor exemplar
 
-escritor.exemplar <- function(palabra, longitud = 10){
+escritor.exemplar <- function(palabra, longitud = 10, max.nchar = 130){
   
   # buscamos la palabra previa
   # frase <- c("*", palabra)
@@ -81,7 +81,14 @@ escritor.exemplar <- function(palabra, longitud = 10){
     if(length(tmp) == 0)
       break
     
+    if(any(is.na(tmp)))
+      break
+    
     frase <- c(frase, sample(tmp, 1))
+    
+    if(sum(nchar(frase)) > max.nchar)
+      break
+    
   }
   
   #paste("...", paste(frase[-1], collapse = " "), "...", collapse = " ")
@@ -93,7 +100,7 @@ palabra <- "caballo"
 
 escritor.exemplar("caballo")
 escritor.exemplar("queso")
-escritor.exemplar("mujer")
+escritor.exemplar("mujer", 20)
 
 escritor.exemplar("gitanilla")
 
